@@ -1,10 +1,10 @@
 package com.marcos.simondice
 
-import android.graphics.Color
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
+import android.widget.ImageButton
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
@@ -47,16 +47,16 @@ class MainActivity : AppCompatActivity() {
 
         Log.d("JUEGO", "COLOR: Nuevo color random generado")
 
-        val ButtonY: Button = findViewById(R.id.buttonY)
-        val ButtonG: Button = findViewById(R.id.buttonG)
-        val ButtonB: Button = findViewById(R.id.buttonB)
-        val ButtonR: Button = findViewById(R.id.buttonR)
+        val ButtonY: ImageButton = findViewById(R.id.buttonY)
+        val ButtonG: ImageButton = findViewById(R.id.buttonG)
+        val ButtonB: ImageButton = findViewById(R.id.buttonB)
+        val ButtonR: ImageButton = findViewById(R.id.buttonR)
 
         val buttonColor = when (numeroRandom) {
-            1 -> ButtonY.setBackgroundColor(Color.YELLOW)
-            2 -> ButtonG.setBackgroundColor(Color.GREEN)
-            3 -> ButtonB.setBackgroundColor(Color.BLUE)
-            else -> {ButtonR.setBackgroundColor(Color.RED)}
+            1 -> ButtonY.setImageResource(R.mipmap.yellowLight_button_foreground)
+            2 -> ButtonG.setImageResource(R.mipmap.greenLight_button_foreground)
+            3 -> ButtonB.setImageResource(R.mipmap.blueLight_button_foreground)
+            else -> {ButtonR.setImageResource(R.mipmap.redLight_button_foreground)}
         }
 
         Log.d("JUEGO", "COLOR: Nuevo color visualizado al jugador")
