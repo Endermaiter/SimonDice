@@ -4,26 +4,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
-
-    <Button
-        android:id="@+id/buttonStart"
-        android:layout_width="323dp"
-        android:layout_height="83dp"
-        android:text="@string/start"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="600dp"
-        tools:ignore="MissingConstraints" />
+    tools:context=".MainActivity"
+    tools:layout_editor_absoluteX="16dp"
+    tools:layout_editor_absoluteY="-1dp">
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="179dp"
         android:layout_height="28dp"
+        android:layout_marginBottom="100dp"
         android:text="@string/round"
         android:textSize="20sp"
-        tools:layout_editor_absoluteX="107dp"
-        tools:layout_editor_absoluteY="411dp"
+        app:layout_constraintBottom_toTopOf="@+id/start_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         tools:ignore="MissingConstraints" />
 
     <android.support.constraint.Guideline
@@ -46,7 +40,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintGuide_begin="194dp"
+        app:layout_constraintGuide_begin="205dp"
         app:layout_constraintStart_toStartOf="parent" />
 
     <android.support.constraint.Guideline
@@ -57,39 +51,73 @@
         app:layout_constraintGuide_begin="364dp" />
 
     <ImageButton
-        android:id="@+id/buttonB"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@mipmap/blue_button_foreground"
-        tools:layout_editor_absoluteX="195dp"
-        tools:layout_editor_absoluteY="210dp"
-        tools:ignore="MissingConstraints" />
-
-    <ImageButton
         android:id="@+id/buttonG"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="106dp"
+        android:layout_height="112dp"
+        android:layout_marginStart="88dp"
+        android:layout_marginTop="89dp"
+        android:layout_marginBottom="18dp"
+        android:background="#FFFFFF"
+        app:layout_constraintBottom_toTopOf="@+id/buttonY"
+        app:layout_constraintEnd_toStartOf="@+id/buttonR"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@mipmap/green_button_foreground"
-        tools:layout_editor_absoluteX="63dp"
-        tools:layout_editor_absoluteY="83dp"
         tools:ignore="MissingConstraints" />
 
     <ImageButton
         android:id="@+id/buttonR"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="108dp"
+        android:layout_height="109dp"
+        android:layout_marginTop="92dp"
+        android:layout_marginEnd="88dp"
+        android:layout_marginBottom="18dp"
+        android:background="#FFFFFF"
+        app:layout_constraintBottom_toTopOf="@+id/buttonB"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@mipmap/red_button_foreground"
-        tools:layout_editor_absoluteX="195dp"
-        tools:layout_editor_absoluteY="83dp"
         tools:ignore="MissingConstraints" />
 
     <ImageButton
         android:id="@+id/buttonY"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="88dp"
+        android:layout_marginBottom="404dp"
+        android:background="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/buttonB"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@mipmap/yellow_button_foreground"
-        tools:layout_editor_absoluteX="63dp"
-        tools:layout_editor_absoluteY="210dp"
         tools:ignore="MissingConstraints" />
+
+    <ImageButton
+        android:id="@+id/buttonB"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="88dp"
+        android:layout_marginBottom="404dp"
+        android:background="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@mipmap/blue_button_foreground"
+        tools:ignore="MissingConstraints" />
+
+    <ImageButton
+        android:id="@+id/start_button"
+        android:layout_width="295dp"
+        android:layout_height="98dp"
+        android:layout_marginBottom="92dp"
+        android:background="#FFFFFF"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@mipmap/start_button_foreground"
+        tools:ignore="MissingConstraints"
+        tools:srcCompat="@mipmap/start_button_foreground" />
 
 </android.support.constraint.ConstraintLayout>
