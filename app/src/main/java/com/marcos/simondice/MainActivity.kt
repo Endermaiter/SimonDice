@@ -7,8 +7,10 @@ import android.util.Log
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
+import android.widget.Toast
 import java.util.*
 import kotlinx.coroutines.*
+import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity() {
 
@@ -35,48 +37,20 @@ class MainActivity : AppCompatActivity() {
         }
 
         buttonY.setOnClickListener {
-            if (compruebaColor(1, ronda)) {
-                contador++
-                generarSecuencia()
-            } else {
-                Log.d("JUEGO", "PARTIDA: GAME OVER")
-                val rondaText: TextView = findViewById(R.id.textRound)
-                rondaText.text = "GAME OVER!!!"
-
-            }
+            contador++
+            compruebaColor(1)
         }
         buttonG.setOnClickListener {
-            if (compruebaColor(2, ronda)) {
-                contador++
-                generarSecuencia()
-            } else {
-                Log.d("JUEGO", "PARTIDA: GAME OVER")
-                val rondaText: TextView = findViewById(R.id.textRound)
-                rondaText.text = "GAME OVER!!!"
-
-            }
+            contador++
+            compruebaColor(2)
         }
         buttonB.setOnClickListener {
-            if (compruebaColor(3, ronda)) {
-                contador++
-                generarSecuencia()
-            } else {
-                Log.d("JUEGO", "PARTIDA: GAME OVER")
-                val rondaText: TextView = findViewById(R.id.textRound)
-                rondaText.text = "GAME OVER!!!"
-
-            }
+            contador++
+            compruebaColor(3)
         }
         buttonR.setOnClickListener {
-            if (compruebaColor(4, ronda)) {
-                contador++
-                generarSecuencia()
-            } else {
-                Log.d("JUEGO", "PARTIDA: GAME OVER")
-                val rondaText: TextView = findViewById(R.id.textRound)
-                rondaText.text = "GAME OVER!!!"
-
-            }
+            contador++
+            compruebaColor(4)
         }
     }
 
@@ -84,85 +58,92 @@ class MainActivity : AppCompatActivity() {
     private fun iniciarPartida() {
         Log.d("JUEGO", "PARTIDA: Comienza la partida")
         Log.d("JUEGO", "PARTIDA: Ronda = $ronda")
-
+        ronda = 1
         val rondaText: TextView = findViewById(R.id.textRound)
         rondaText.text = "Round: $ronda"
 
         val recordText: TextView = findViewById(R.id.textRecord)
         recordText.text = "Record: $record"
         secuencia = arrayListOf()
-        ronda++
     }
 
+
     private fun generarSecuencia() {
-        Log.d("JUEGO", "Genero secuencia y muestro " + ronda.toString())
+        Log.d("JUEGO", "Genero secuencia y muestro $ronda")
         var i = 0
         while (i < ronda) {
+
             Log.d("JUEGO", "SECUENCIA: Comienza la secuencia")
-            mostrarSecuencia()
+
+            val numeroRandom = Random().nextInt(4) + 1
+
+            Log.d("JUEGO", "COLOR: Nuevo color random generado $numeroRandom")
+            Log.d("JUEGO", "Generado: $numeroRandom")
+
+            secuencia.add(numeroRandom)
+            mostrarColor(secuencia)
             i++
+            Log.d("JUEGO", "SECUENCIA:Secuencia $secuencia")
             Log.d("JUEGO", "SECUENCIA: Termina la secuencia")
         }
     }
 
-    private fun mostrarSecuencia() {
+    private fun mostrarColor(secuencia: ArrayList<Int>) {
+
+        var i = 0
 
         var corutina: Job? = null
         corutina = GlobalScope.launch(Dispatchers.Main) {
 
-            Log.d("JUEGO", "Coroutina" + corutina.toString())
+            while (i < secuencia.size) {
 
-            val numeroRandom = Random().nextInt(4) + 1
+                Log.d("JUEGO", "Coroutina" + corutina.toString())
 
-            Log.d("JUEGO", "COLOR: Nuevo color random generado " + numeroRandom.toString())
-            secuencia.add(numeroRandom)
-            val ButtonY: ImageButton = findViewById(R.id.buttonY)
-            val ButtonG: ImageButton = findViewById(R.id.buttonG)
-            val ButtonB: ImageButton = findViewById(R.id.buttonB)
-            val ButtonR: ImageButton = findViewById(R.id.buttonR)
+                val ButtonY: ImageButton = findViewById(R.id.buttonY)
+                val ButtonG: ImageButton = findViewById(R.id.buttonG)
+                val ButtonB: ImageButton = findViewById(R.id.buttonB)
+                val ButtonR: ImageButton = findViewById(R.id.buttonR)
 
-            Log.d("JUEGO", "Generado: " + numeroRandom.toString())
+                delay(1000L)
 
-            delay(1000L)
-
-            when (numeroRandom) {
-                1 -> ButtonY.setImageResource(R.mipmap.yellowlight_button_foreground)
-                2 -> ButtonG.setImageResource(R.mipmap.greenlight_button_foreground)
-                3 -> ButtonB.setImageResource(R.mipmap.bluelight_button_foreground)
-                else -> {
-                    ButtonR.setImageResource(R.mipmap.redlight_button_foreground)
+                when (secuencia[i]) {
+                    1 -> ButtonY.setImageResource(R.mipmap.yellowlight_button_foreground)
+                    2 -> ButtonG.setImageResource(R.mipmap.greenlight_button_foreground)
+                    3 -> ButtonB.setImageResource(R.mipmap.bluelight_button_foreground)
+                    else -> {
+                        ButtonR.setImageResource(R.mipmap.redlight_button_foreground)
+                    }
                 }
+
+                delay(1000L)
+
+                ButtonY.setImageResource(R.mipmap.yellow_button_foreground)
+                ButtonG.setImageResource(R.mipmap.green_button_foreground)
+                ButtonB.setImageResource(R.mipmap.blue_button_foreground)
+                ButtonR.setImageResource(R.mipmap.red_button_foreground)
+
+                Log.d("JUEGO", "COLOR: Nuevo color visualizado al jugador")
+                i++
             }
-
-            delay(1000L)
-
-            ButtonY.setImageResource(R.mipmap.yellow_button_foreground)
-            ButtonG.setImageResource(R.mipmap.green_button_foreground)
-            ButtonB.setImageResource(R.mipmap.blue_button_foreground)
-            ButtonR.setImageResource(R.mipmap.red_button_foreground)
-
-            Log.d("JUEGO", "COLOR: Nuevo color visualizado al jugador")
-
-            secuencia.add(numeroRandom)
-            Log.d("JUEGO", "SECUENCIA: ${secuencia.toString()}")
         }
-
+        val toast = Toast.makeText(applicationContext, "Pulsa la secuencia", Toast.LENGTH_SHORT)
+        toast.show()
     }
 
-    private fun aguardaPosicion() {
-
+    private fun compruebaColor(color: Int){
+        if(color==secuencia[contador]){
+            ronda++
+            generarSecuencia()
+        }else{
+            gameOver()
+        }
     }
 
-    private fun compruebaColor(color: Int, ronda: Int): Boolean {
-        /*return if (contador == ronda) {
-            color == secuencia.indexOf(ronda)
-        } else {
-            false
-        }*/
-        return true
-    }
-
-    private fun subirNivel() {
-
+    private fun gameOver() {
+        Log.d("JUEGO", "PARTIDA: GAME OVER")
+        val toast1 = Toast.makeText(applicationContext, "GAME OVER!!!!!", Toast.LENGTH_SHORT)
+        toast1.show()
+        val toast2 = Toast.makeText(applicationContext, "PULSE DE NUEVO EL BOTON START", Toast.LENGTH_SHORT)
+        toast2.show()
     }
 }
