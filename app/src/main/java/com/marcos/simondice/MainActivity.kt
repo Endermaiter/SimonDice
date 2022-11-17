@@ -38,19 +38,43 @@ class MainActivity : AppCompatActivity() {
 
         buttonY.setOnClickListener {
             contador++
-            compruebaColor(1)
+            if(compruebaColor(1)){
+                if (contador==secuencia.size){
+                    generarSecuencia()
+                }
+            }else{
+                gameOver()
+            }
         }
         buttonG.setOnClickListener {
             contador++
-            compruebaColor(2)
+            if(compruebaColor(2)){
+                if (contador==secuencia.size){
+                    generarSecuencia()
+                }
+            }else{
+                gameOver()
+            }
         }
         buttonB.setOnClickListener {
             contador++
-            compruebaColor(3)
+            if(compruebaColor(3)){
+                if (contador==secuencia.size){
+                    generarSecuencia()
+                }
+            }else{
+                gameOver()
+            }
         }
         buttonR.setOnClickListener {
             contador++
-            compruebaColor(4)
+            if(compruebaColor(4)){
+                if (contador==secuencia.size){
+                    generarSecuencia()
+                }
+            }else{
+                gameOver()
+            }
         }
     }
 
@@ -58,7 +82,6 @@ class MainActivity : AppCompatActivity() {
     private fun iniciarPartida() {
         Log.d("JUEGO", "PARTIDA: Comienza la partida")
         Log.d("JUEGO", "PARTIDA: Ronda = $ronda")
-        ronda = 1
         val rondaText: TextView = findViewById(R.id.textRound)
         rondaText.text = "Round: $ronda"
 
@@ -69,6 +92,8 @@ class MainActivity : AppCompatActivity() {
 
 
     private fun generarSecuencia() {
+        contador = 0
+        ronda = 1
         Log.d("JUEGO", "Genero secuencia y muestro $ronda")
         var i = 0
         while (i < ronda) {
@@ -104,7 +129,7 @@ class MainActivity : AppCompatActivity() {
                 val ButtonB: ImageButton = findViewById(R.id.buttonB)
                 val ButtonR: ImageButton = findViewById(R.id.buttonR)
 
-                delay(1000L)
+                delay(500L)
 
                 when (secuencia[i]) {
                     1 -> ButtonY.setImageResource(R.mipmap.yellowlight_button_foreground)
@@ -115,7 +140,7 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
 
-                delay(1000L)
+                delay(500L)
 
                 ButtonY.setImageResource(R.mipmap.yellow_button_foreground)
                 ButtonG.setImageResource(R.mipmap.green_button_foreground)
@@ -130,20 +155,18 @@ class MainActivity : AppCompatActivity() {
         toast.show()
     }
 
-    private fun compruebaColor(color: Int){
-        if(color==secuencia[contador]){
+    private fun compruebaColor(color: Int):Boolean{
+        return if(color==secuencia[contador-1]){
             ronda++
-            generarSecuencia()
+            true
         }else{
-            gameOver()
+            false
         }
     }
 
     private fun gameOver() {
         Log.d("JUEGO", "PARTIDA: GAME OVER")
-        val toast1 = Toast.makeText(applicationContext, "GAME OVER!!!!!", Toast.LENGTH_SHORT)
+        val toast1 = Toast.makeText(applicationContext, "GAME OVER!!, PULSE DE NUEVO EL BOTON START", Toast.LENGTH_SHORT)
         toast1.show()
-        val toast2 = Toast.makeText(applicationContext, "PULSE DE NUEVO EL BOTON START", Toast.LENGTH_SHORT)
-        toast2.show()
     }
 }
