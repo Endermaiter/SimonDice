@@ -110,8 +110,11 @@ class MainActivity : AppCompatActivity() {
 
             secuencia.add(numeroRandom)
 
-            miModelo.añadirRandom()
-            mostrarColor(secuencia)
+            //ESQUEMA MVVC
+
+            //añadimos el numero random generado en la secuencia a la lista del ViewModel
+            miModelo.añadirRandom(numeroRandom)
+            //instanciamos el observador
             miModelo.livedata_secuencia.observe(
                 this, Observer(
                     // funcion que llamaremos cada vez que cambie el valor del observable
@@ -121,6 +124,10 @@ class MainActivity : AppCompatActivity() {
                     }
                 )
             )
+
+            //
+
+            mostrarColor(secuencia)
             i++
             Log.d("JUEGO", "SECUENCIA:Secuencia $secuencia")
             Log.d("JUEGO", "SECUENCIA: Termina la secuencia")

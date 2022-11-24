@@ -10,15 +10,14 @@ import kotlin.random.Random
  */
 class MyViewModel : ViewModel() {
 
-    // para que sea mas facil la etiqueta del log
+    // Etiqueta del log
     val TAG_LOG: String = "ViewModel"
 
-    // este va a ser nuestra lista para la secuencia random
-    // usamos mutable, ya que la queremos modificar
+    // Lista de la secuencia. Es mutable para que sea editable
     val secuencia = mutableListOf<Int>()
 
-    // definimos una MutableLiveData
-    // para poder observar los valores de la MutableList<Int>
+
+    // definimos una MutableLiveData para poder observar los valores de la MutableList<Int>
     val livedata_secuencia = MutableLiveData<MutableList<Int>>()
 
     // inicializamos variables cuando instanciamos
@@ -27,16 +26,13 @@ class MyViewModel : ViewModel() {
         livedata_secuencia.value = secuencia
     }
 
-    /**
-     * añadimos entero random al
-     */
-    fun añadirRandom() {
+    //funcion de añadir el numero random de la secuencia a nuestro array
+    fun añadirRandom(numeroRandom:Int) {
         // añadimos entero random a la lista
-        secuencia.add(Random.nextInt(1, 4))
-        // actualizamos el livedata, de esta manera si hay un observador
-        // este recibirá la nueva lista
+        secuencia.add(numeroRandom)
+        // actualizamos el livedata, de esta manera si hay un observador este recibirá la nueva lista
         livedata_secuencia.value = secuencia
-        // la mostramos en el logcat
+        //mostramos la secuencia generada, que deberia ser identica a la de la app, en el Logcat
         Log.d(TAG_LOG, "Añadimos Array al livedata: $secuencia")
     }
 }
