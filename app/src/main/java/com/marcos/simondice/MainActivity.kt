@@ -1,16 +1,17 @@
 package com.marcos.simondice
 
-import android.annotation.SuppressLint
+
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.viewModels
 import java.util.*
 import kotlinx.coroutines.*
 import kotlin.collections.ArrayList
+import androidx.lifecycle.Observer
 
 class MainActivity : AppCompatActivity() {
 
@@ -20,6 +21,7 @@ class MainActivity : AppCompatActivity() {
     var contador: Int = 0
 
     lateinit var buttonStart: ImageButton
+    val miModelo by viewModels<MyViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,41 +40,41 @@ class MainActivity : AppCompatActivity() {
 
         buttonY.setOnClickListener {
             contador++
-            if(compruebaColor(1)){
-                if (contador==secuencia.size){
+            if (compruebaColor(1)) {
+                if (contador == secuencia.size) {
                     generarSecuencia()
                 }
-            }else{
+            } else {
                 gameOver()
             }
         }
         buttonG.setOnClickListener {
             contador++
-            if(compruebaColor(2)){
-                if (contador==secuencia.size){
+            if (compruebaColor(2)) {
+                if (contador == secuencia.size) {
                     generarSecuencia()
                 }
-            }else{
+            } else {
                 gameOver()
             }
         }
         buttonB.setOnClickListener {
             contador++
-            if(compruebaColor(3)){
-                if (contador==secuencia.size){
+            if (compruebaColor(3)) {
+                if (contador == secuencia.size) {
                     generarSecuencia()
                 }
-            }else{
+            } else {
                 gameOver()
             }
         }
         buttonR.setOnClickListener {
             contador++
-            if(compruebaColor(4)){
-                if (contador==secuencia.size){
+            if (compruebaColor(4)) {
+                if (contador == secuencia.size) {
                     generarSecuencia()
                 }
-            }else{
+            } else {
                 gameOver()
             }
         }
@@ -96,6 +98,7 @@ class MainActivity : AppCompatActivity() {
         ronda = 1
         Log.d("JUEGO", "Genero secuencia y muestro $ronda")
         var i = 0
+
         while (i < ronda) {
 
             Log.d("JUEGO", "SECUENCIA: Comienza la secuencia")
@@ -106,7 +109,18 @@ class MainActivity : AppCompatActivity() {
             Log.d("JUEGO", "Generado: $numeroRandom")
 
             secuencia.add(numeroRandom)
+
+            miModelo.añadirRandom()
             mostrarColor(secuencia)
+            miModelo.livedata_secuencia.observe(
+                this, Observer(
+                    // funcion que llamaremos cada vez que cambie el valor del observable
+                    fun(nuevaListaRandom: MutableList<Int>) {
+                        // actualizamos textView en caso de recibir datos
+                        Log.d(miModelo.TAG_LOG, nuevaListaRandom.toString())
+                    }
+                )
+            )
             i++
             Log.d("JUEGO", "SECUENCIA:Secuencia $secuencia")
             Log.d("JUEGO", "SECUENCIA: Termina la secuencia")
@@ -155,18 +169,27 @@ class MainActivity : AppCompatActivity() {
         toast.show()
     }
 
-    private fun compruebaColor(color: Int):Boolean{
-        return if(color==secuencia[contador-1]){
+    private fun compruebaColor(color: Int): Boolean {
+
+        if (contador == secuencia.size){
+            val rondaSum = ronda+1
+            val rondaText: TextView = findViewById(R.id.textRound)
+            rondaText.text = "Round: $rondaSum"
+        }
+
+        return if (color == secuencia[contador - 1]) {
             ronda++
             true
-        }else{
+        } else {
             false
         }
     }
 
     private fun gameOver() {
         Log.d("JUEGO", "PARTIDA: GAME OVER")
-        val toast1 = Toast.makeText(applicationContext, "GAME OVER!!, PULSE DE NUEVO EL BOTON START", Toast.LENGTH_SHORT)
+        val toast1 = Toast.makeText(
+            applicationContext, "GAME OVER!!, PULSE DE NUEVO EL BOTON START", Toast.LENGTH_SHORT
+        )
         toast1.show()
     }
 }
