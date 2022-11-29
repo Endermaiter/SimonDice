@@ -109,24 +109,7 @@ class MainActivity : AppCompatActivity() {
             Log.d("JUEGO", "Generado: $numeroRandom")
 
             secuencia.add(numeroRandom)
-
-            //ESQUEMA MVVC
-
-            //añadimos el numero random generado en la secuencia a la lista del ViewModel
-            miModelo.añadirRandom(numeroRandom)
-            //instanciamos el observador
-            miModelo.livedata_secuencia.observe(
-                this, Observer(
-                    // funcion que llamaremos cada vez que cambie el valor del observable
-                    fun(nuevaListaRandom: MutableList<Int>) {
-                        // actualizamos textView en caso de recibir datos
-                        Log.d(miModelo.TAG_LOG, nuevaListaRandom.toString())
-                    }
-                )
-            )
-
             //
-
             mostrarColor(secuencia)
             i++
             Log.d("JUEGO", "SECUENCIA:Secuencia $secuencia")
@@ -186,6 +169,20 @@ class MainActivity : AppCompatActivity() {
 
         return if (color == secuencia[contador - 1]) {
             ronda++
+            //ESQUEMA MVVC
+
+            //añadimos el numero random generado en la secuencia a la lista del ViewModel
+            miModelo.añadirRonda(ronda)
+            //instanciamos el observador
+            miModelo.livedata_ronda.observe(
+                this, Observer(
+                    // funcion que llamaremos cada vez que cambie el valor del observable
+                    fun(nuevaListaRandom: MutableList<Int>) {
+                        // actualizamos LOGd en caso de recibir datos
+                        Log.d(miModelo.TAG_LOG, nuevaListaRandom.toString())
+                    }
+                )
+            )
             true
         } else {
             false
@@ -198,5 +195,13 @@ class MainActivity : AppCompatActivity() {
             applicationContext, "GAME OVER!!, PULSE DE NUEVO EL BOTON START", Toast.LENGTH_SHORT
         )
         toast1.show()
+
+        val rondaText: TextView = findViewById(R.id.textRound)
+        rondaText.text = "Round: 0"
+
+        val numMaxArray: Int = miModelo.rondaArray.size
+        val rondaMax: Int = miModelo.rondaArray[numMaxArray-1]
+        Log.d(miModelo.TAG_LOG,"Ronda máxima alcanzada: $rondaMax")
+        miModelo.rondaArray.clear()
     }
 }
