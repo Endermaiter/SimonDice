@@ -10,8 +10,11 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import java.util.*
 import kotlinx.coroutines.*
-import kotlin.collections.ArrayList
+import kotlin.collections.*
 import androidx.lifecycle.Observer
+import androidx.room.Room
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 class MainActivity : AppCompatActivity() {
 
@@ -21,7 +24,17 @@ class MainActivity : AppCompatActivity() {
     var contador: Int = 0
 
     lateinit var buttonStart: ImageButton
+
+    //viewModel
+
     val miModelo by viewModels<MyViewModel>()
+
+    //SQLite
+
+    val db = Room.databaseBuilder(
+        applicationContext,
+        DataBase.AppDatabase::class.java, "simon-dice"
+    ).build()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -202,6 +215,14 @@ class MainActivity : AppCompatActivity() {
         val numMaxArray: Int = miModelo.rondaArray.size
         val rondaMax: Int = miModelo.rondaArray[numMaxArray-1]
         Log.d(miModelo.TAG_LOG,"Ronda máxima alcanzada: $rondaMax")
+
+        //SQLite
+
+        val dao = db.datosDao()
+        val fecha = LocalDateTime.now()
+            .format(DateTimeFormatter.ofPattern("MMM dd yyyy, hh:mm:ss a"))
+        dao.insertDatos(1, rondaMax, fecha)
+
         miModelo.rondaArray.clear()
     }
 }

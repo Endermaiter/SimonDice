@@ -3,7 +3,6 @@ package com.marcos.simondice
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import kotlin.random.Random
 
 /**
  * Inicializa y modifica los datos de la app
