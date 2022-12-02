@@ -207,7 +207,11 @@ class MainActivity : AppCompatActivity() {
         val rondaText: TextView = findViewById(R.id.textRound)
         rondaText.text = "Round: 0"
 
-        miModelo.insertDB()
+        val numMaxArray: Int = miModelo.rondaArray.size
+        val rondaMax: Int = miModelo.rondaArray[numMaxArray - 1]
+        Log.d(miModelo.TAG_LOG, "Ronda máxima alcanzada: $rondaMax")
+
+        miModelo.insertDB(rondaMax)
 
         miModelo.rondaArray.clear()
     }

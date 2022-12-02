@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.room.Room
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -50,20 +51,15 @@ class MyViewModel(application: Application) : AndroidViewModel(application) {
     val db = Room
         .databaseBuilder(
             context,
-            Database::class.java, "records"
-        )
-        .build()
+            Database::class.java, "simon-dice"
+        ).allowMainThreadQueries().build()
 
-    fun insertDB() {
-
-        val roomCorrutine = GlobalScope.launch(Dispatchers.Main) {
+    fun insertDB(rondaMax:Int) {
+        var roomCorrutine: Job? = null
+        roomCorrutine = GlobalScope.launch(Dispatchers.Main) {
             try {
 
                 val dao = db.datosDao()
-
-                val numMaxArray: Int = rondaArray.size
-                val rondaMax: Int = rondaArray[numMaxArray - 1]
-                Log.d(TAG_LOG, "Ronda máxima alcanzada: $rondaMax")
 
                 val fecha = LocalDateTime.now()
                     .format(DateTimeFormatter.ofPattern("MMM dd yyyy, hh:mm:ss a"))
