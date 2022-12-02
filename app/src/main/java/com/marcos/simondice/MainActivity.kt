@@ -29,13 +29,6 @@ class MainActivity : AppCompatActivity() {
 
     val miModelo by viewModels<MyViewModel>()
 
-    //SQLite
-
-    val db = Room.databaseBuilder(
-        applicationContext,
-        DataBase.AppDatabase::class.java, "simon-dice"
-    ).build()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -100,13 +93,15 @@ class MainActivity : AppCompatActivity() {
         val rondaText: TextView = findViewById(R.id.textRound)
         rondaText.text = "Round: $ronda"
 
-        val recordText: TextView = findViewById(R.id.textRecord)
-        recordText.text = "Record: $record"
         secuencia = arrayListOf()
     }
 
 
     private fun generarSecuencia() {
+
+        val recordText: TextView = findViewById(R.id.textRecord)
+        recordText.text = "Record: $record"
+
         contador = 0
         ronda = 1
         Log.d("JUEGO", "Genero secuencia y muestro $ronda")
@@ -212,16 +207,7 @@ class MainActivity : AppCompatActivity() {
         val rondaText: TextView = findViewById(R.id.textRound)
         rondaText.text = "Round: 0"
 
-        val numMaxArray: Int = miModelo.rondaArray.size
-        val rondaMax: Int = miModelo.rondaArray[numMaxArray-1]
-        Log.d(miModelo.TAG_LOG,"Ronda máxima alcanzada: $rondaMax")
-
-        //SQLite
-
-        val dao = db.datosDao()
-        val fecha = LocalDateTime.now()
-            .format(DateTimeFormatter.ofPattern("MMM dd yyyy, hh:mm:ss a"))
-        dao.insertDatos(1, rondaMax, fecha)
+        miModelo.insertDB()
 
         miModelo.rondaArray.clear()
     }

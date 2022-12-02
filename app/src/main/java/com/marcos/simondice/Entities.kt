@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 
 @Entity
 data class Datos(
-    @PrimaryKey val id: Int,
+    @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "ronda") val ronda: Int?,
     @ColumnInfo(name = "fecha") val fecha: String?
 )
