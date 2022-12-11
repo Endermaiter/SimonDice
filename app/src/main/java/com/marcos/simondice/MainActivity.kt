@@ -20,7 +20,6 @@ class MainActivity : AppCompatActivity() {
 
     lateinit var secuencia: ArrayList<Int>
     var ronda: Int = 0
-    var record: Int = 0
     var contador: Int = 0
 
     lateinit var buttonStart: ImageButton
@@ -42,6 +41,11 @@ class MainActivity : AppCompatActivity() {
         buttonStart.setOnClickListener {
             iniciarPartida()
             generarSecuencia()
+            val recordText:TextView = findViewById(R.id.textRecord)
+            val record : Int = miModelo.selectDB()
+            Log.d(miModelo.TAG_LOG, "Record(Despues de llamar al metodo): $record")
+            recordText.text = "Record: $record"
+
         }
 
         buttonY.setOnClickListener {
@@ -92,15 +96,11 @@ class MainActivity : AppCompatActivity() {
         Log.d("JUEGO", "PARTIDA: Ronda = $ronda")
         val rondaText: TextView = findViewById(R.id.textRound)
         rondaText.text = "Round: $ronda"
-
         secuencia = arrayListOf()
     }
 
 
     private fun generarSecuencia() {
-
-        val recordText: TextView = findViewById(R.id.textRecord)
-        recordText.text = "Record: $record"
 
         contador = 0
         ronda = 1

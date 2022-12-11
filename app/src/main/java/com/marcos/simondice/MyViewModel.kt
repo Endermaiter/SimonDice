@@ -55,8 +55,8 @@ class MyViewModel(application: Application) : AndroidViewModel(application) {
         ).allowMainThreadQueries().build()
 
     fun insertDB(rondaMax:Int) {
-        var roomCorrutine: Job? = null
-        roomCorrutine = GlobalScope.launch(Dispatchers.Main) {
+        var insertCorrutine: Job? = null
+        insertCorrutine = GlobalScope.launch(Dispatchers.Main) {
             try {
 
                 val dao = db.datosDao()
@@ -67,8 +67,31 @@ class MyViewModel(application: Application) : AndroidViewModel(application) {
                 dao.insertDatos(array)
 
             } catch (ex: NullPointerException) {
-
+                Log.d(TAG_LOG, ex.toString())
             }
         }
     }
+
+    fun selectDB():Int{
+        var record = 0
+        var value = 0;
+        var selectCorrutine: Job? = null
+        selectCorrutine = GlobalScope.launch(Dispatchers.Main) {
+            try {
+
+                val dao = db.datosDao()
+
+                record = dao.getMaxRound()
+                Log.d(TAG_LOG, "Record durante el metodo: $record")
+                value = record
+
+            } catch (ex: NullPointerException) {
+                Log.d(TAG_LOG, ex.toString())
+            }
+            Log.d(TAG_LOG, "Record fuera del trycatch: $record")
+        }
+        Log.d(TAG_LOG, "Record fuera de la corrutina: $record")
+        return record
+    }
+
 }

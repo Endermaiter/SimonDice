@@ -7,10 +7,10 @@ import androidx.room.Query
 
 @Dao
 interface DatosDAO {
-    /*
-    @Query("SELECT * FROM Datos WHERE ronda = (SELECT max(ronda) FROM Datos)")
-    fun getRowMaxRound(): ArrayList<Datos>
-*/
+
+    @Query("SELECT ronda FROM Datos WHERE ronda = (SELECT max(ronda) FROM Datos)")
+    fun getMaxRound(): Int
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertDatos(fila:ArrayList<Datos>)
 }
