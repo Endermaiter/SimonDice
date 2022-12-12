@@ -72,26 +72,29 @@ class MyViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    fun selectDB():Int{
-        var record = 0
-        var value = 0;
+    var record = 0
+    val recordArray = mutableListOf<Int>()
+    val livedata_record = MutableLiveData<Int>()
+
+
+
+    fun getRecord(){
         var selectCorrutine: Job? = null
         selectCorrutine = GlobalScope.launch(Dispatchers.Main) {
             try {
-
+                recordArray.clear()
                 val dao = db.datosDao()
 
                 record = dao.getMaxRound()
+                recordArray.add(record)
+                livedata_record.value = recordArray[0]
+
                 Log.d(TAG_LOG, "Record durante el metodo: $record")
-                value = record
 
             } catch (ex: NullPointerException) {
                 Log.d(TAG_LOG, ex.toString())
             }
-            Log.d(TAG_LOG, "Record fuera del trycatch: $record")
         }
-        Log.d(TAG_LOG, "Record fuera de la corrutina: $record")
-        return record
     }
 
 }

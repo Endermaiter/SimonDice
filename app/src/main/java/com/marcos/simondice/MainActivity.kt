@@ -21,12 +21,14 @@ class MainActivity : AppCompatActivity() {
     lateinit var secuencia: ArrayList<Int>
     var ronda: Int = 0
     var contador: Int = 0
+    var listaRecord: MutableList<Int> = mutableListOf()
 
     lateinit var buttonStart: ImageButton
 
     //viewModel
 
     val miModelo by viewModels<MyViewModel>()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,11 +43,6 @@ class MainActivity : AppCompatActivity() {
         buttonStart.setOnClickListener {
             iniciarPartida()
             generarSecuencia()
-            val recordText:TextView = findViewById(R.id.textRecord)
-            val record : Int = miModelo.selectDB()
-            Log.d(miModelo.TAG_LOG, "Record(Despues de llamar al metodo): $record")
-            recordText.text = "Record: $record"
-
         }
 
         buttonY.setOnClickListener {
@@ -88,6 +85,18 @@ class MainActivity : AppCompatActivity() {
                 gameOver()
             }
         }
+        miModelo.getRecord()
+        miModelo.livedata_record.observe(
+            this, Observer(
+                // funcion que llamaremos cada vez que cambie el valor del observable
+                fun(record: Int) {
+                    // actualizamos LOGd en caso de recibir datos
+                    Log.d(miModelo.TAG_LOG, "LIVE RECORD $record")
+                    val recordText: TextView = findViewById(R.id.textRecord)
+                    recordText.text = "Record: $record"
+                }
+            )
+        )
     }
 
 
@@ -169,8 +178,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun compruebaColor(color: Int): Boolean {
 
-        if (contador == secuencia.size){
-            val rondaSum = ronda+1
+        if (contador == secuencia.size) {
+            val rondaSum = ronda + 1
             val rondaText: TextView = findViewById(R.id.textRound)
             rondaText.text = "Round: $rondaSum"
         }
@@ -212,7 +221,7 @@ class MainActivity : AppCompatActivity() {
         Log.d(miModelo.TAG_LOG, "Ronda máxima alcanzada: $rondaMax")
 
         miModelo.insertDB(rondaMax)
-
+        miModelo.getRecord()
         miModelo.rondaArray.clear()
     }
 }
