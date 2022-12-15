@@ -5,7 +5,11 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.room.PrimaryKey
 import androidx.room.Room
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
@@ -44,6 +48,7 @@ class MyViewModel(application: Application) : AndroidViewModel(application) {
         Log.d(TAG_LOG, "Añadimos Array al livedata: $rondaArray")
     }
 
+    //SQLite
 
     val context = getApplication<Application>().applicationContext
 
@@ -54,22 +59,37 @@ class MyViewModel(application: Application) : AndroidViewModel(application) {
             Database::class.java, "simon-dice"
         ).allowMainThreadQueries().build()
 
-    fun insertDB(rondaMax:Int) {
+    //Firebase
+
+    lateinit var database: DatabaseReference
+    var fecha = LocalDateTime.now()
+        .format(DateTimeFormatter.ofPattern("MMM dd yyyy, hh:mm:ss a"))
+
+    fun insertDB(rondaMax: Int) {
+
+        //SQLite
+
         var insertCorrutine: Job? = null
         insertCorrutine = GlobalScope.launch(Dispatchers.Main) {
             try {
 
                 val dao = db.datosDao()
 
-                val fecha = LocalDateTime.now()
-                    .format(DateTimeFormatter.ofPattern("MMM dd yyyy, hh:mm:ss a"))
                 val array: ArrayList<Datos> = arrayListOf(Datos(rondaMax, fecha))
+                Log.d(TAG_LOG, "Datos para insertar(SQLiteDB): $array")
                 dao.insertDatos(array)
 
             } catch (ex: NullPointerException) {
                 Log.d(TAG_LOG, ex.toString())
             }
         }
+
+        //FireBase (Insert into Real Time Data Base)
+
+        database = Firebase.database.reference
+        val rowRealTimeDB = Datos(rondaMax, fecha)
+        Log.d(TAG_LOG, "Datos para insertar (RTDB): $rowRealTimeDB")
+        database.child("SimonDice").child("Datos").setValue(rowRealTimeDB)
     }
 
     var record = 0
@@ -77,8 +97,7 @@ class MyViewModel(application: Application) : AndroidViewModel(application) {
     val livedata_record = MutableLiveData<Int>()
 
 
-
-    fun getRecord(){
+    fun getRecord() {
         var selectCorrutine: Job? = null
         selectCorrutine = GlobalScope.launch(Dispatchers.Main) {
             try {
@@ -89,7 +108,7 @@ class MyViewModel(application: Application) : AndroidViewModel(application) {
                 recordArray.add(record)
                 livedata_record.value = recordArray[0]
 
-                Log.d(TAG_LOG, "Record durante el metodo: $record")
+                Log.d(TAG_LOG, "Record en método getRecord(): $record")
 
             } catch (ex: NullPointerException) {
                 Log.d(TAG_LOG, ex.toString())

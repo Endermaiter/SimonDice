@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "230834650019",
+    "firebase_url": "https://pruebaclase-19086-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "pruebaclase-19086",
+    "storage_bucket": "pruebaclase-19086.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:230834650019:android:9a2c9332d0e5206caff816",
+        "android_client_info": {
+          "package_name": "com.marcos.simondice"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "230834650019-krkf3vv52ls74crpscm0a3bl96u9emei.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDoLxL74HLjQo51PaCoFSsEEno0r5WgbBk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "230834650019-krkf3vv52ls74crpscm0a3bl96u9emei.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
